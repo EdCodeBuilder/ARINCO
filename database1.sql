@@ -1,3 +1,17 @@
+/*
+SQLyog Professional v12.5.1 (64 bit)
+MySQL - 10.4.18-MariaDB : Database - arinco
+*********************************************************************
+*/
+
+/*!40101 SET NAMES utf8 */;
+
+/*!40101 SET SQL_MODE=''*/;
+
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 CREATE DATABASE /*!32312 IF NOT EXISTS*/`ARINCO` /*!40100 DEFAULT CHARACTER SET latin1 */;
 
 USE `ARINCO`;
@@ -20,10 +34,10 @@ CREATE TABLE `cargo` (
 /*Data for the table `cargo` */
 
 insert  into `cargo`(`id_cargo`,`descripcion`,`estado`,`fecha_creacion`,`fecha_modificacion`,`id_usuario_creacion`,`id_usuario_modificacion`) values 
-(1,'Administrador','1','2021-10-08 07:35:00','2021-10-08 07:35:00',1,1),
-(2,'Contador','1','2021-10-08 07:35:00','2021-10-08 07:35:00',1,1),
-(3,'Costurer@','1','2021-10-08 07:35:00','2021-10-08 07:35:00',1,1),
-(4,'Vendedor','1','2021-10-08 07:35:00','2021-10-08 07:35:00',1,1);
+(1,'Administrador','1','2021-05-08 01:35:00','2021-05-08 01:35:00',1,1),
+(2,'Contador','1','2021-05-08 01:35:00','2021-05-08 01:35:00',1,1),
+(3,'Costurer@','1','2021-05-08 01:35:00','2021-05-08 01:35:00',1,1),
+(4,'Vendedor','1','2021-05-08 01:35:00','2021-05-08 01:35:00',1,1);
 
 /*Table structure for table `categoria` */
 
@@ -43,15 +57,39 @@ CREATE TABLE `categoria` (
 /*Data for the table `categoria` */
 
 insert  into `categoria`(`id_categoria`,`descripcion`,`estado`,`fecha_creacion`,`fecha_modificacion`,`id_usuario_creacion`,`id_usuario_modificacion`) values 
-(1,'Tapabocas','1','2021-10-08 07:35:00','2021-10-08 07:35:00',1,1),
-(2,'Caretas','1','2021-10-08 07:35:00','2021-10-08 07:35:00',1,1),
-(3,'Gafas','1','2021-10-08 07:35:00','2021-10-08 07:35:00',1,1),
-(4,'Tapaoidos','1','2021-10-08 07:35:00','2021-10-08 07:35:00',1,1),
-(5,'Guantes','1','2021-10-08 07:35:00','2021-10-08 07:35:00',1,1),
-(8,'Trajes','1','2021-10-08 07:35:00','2021-10-08 07:35:00',1,1),
-(9,'Calzado','1','2021-10-08 07:35:00','2021-10-08 07:35:00',1,1),
-(10,'Camisas','1','2021-10-08 07:35:00','2021-10-08 07:35:00',1,1),
-(11,'Pantalones','1','2021-10-08 07:35:00','2021-10-08 07:35:00',1,1);
+(1,'Camisas','1','2021-05-08 01:35:00','2021-05-08 01:35:00',1,1),
+(2,'Pantalones','1','2021-05-08 01:35:00','2021-05-08 01:35:00',1,1),
+(3,'Vestidos','1','2021-05-08 01:35:00','2021-05-08 01:35:00',1,1),
+(4,'Sueteres','1','2021-05-08 01:35:00','2021-05-08 01:35:00',1,1),
+(5,'Interiores','1','2021-05-08 01:35:00','2021-05-08 01:35:00',1,1),
+(8,'Resortes','1','2021-06-18 13:01:40','2021-06-18 13:01:40',1,1),
+(9,'Botones','1','2021-06-18 13:02:06','2021-06-18 13:02:06',1,1);
+
+/*Table structure for table `proveedor` */
+
+DROP TABLE IF EXISTS `proveedor`;
+
+CREATE TABLE `proveedor` (
+  `id_proveedor` int(11) NOT NULL AUTO_INCREMENT,
+  `id_persona` int(11) NOT NULL,
+  `estado` enum('0','1') NOT NULL,
+  `fecha_creacion` datetime NOT NULL,
+  `fecha_modificacion` datetime NOT NULL,
+  `id_usuario_creacion` int(11) NOT NULL,
+  `id_usuario_modificacion` int(11) NOT NULL,
+  PRIMARY KEY (`id_proveedor`),
+  KEY `id_persona` (`id_persona`),
+  CONSTRAINT `fk_proveedor_persona` FOREIGN KEY (`id_persona`) REFERENCES `persona` (`id_persona`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4;
+
+/*Data for the table `proveedor` */
+
+insert  into `proveedor`(`id_proveedor`,`id_persona`,`estado`,`fecha_creacion`,`fecha_modificacion`,`id_usuario_creacion`,`id_usuario_modificacion`) values 
+(1,5,'1','2021-05-10 20:00:00','2021-05-10 20:00:00',1,1),
+(2,6,'1','2021-05-10 20:00:00','2021-05-10 20:00:00',1,1),
+(3,7,'1','2021-05-10 20:00:00','2021-05-10 20:00:00',1,1),
+(4,8,'1','2021-05-10 20:00:00','2021-05-10 20:00:00',1,1),
+(5,9,'1','2021-05-10 20:00:00','2021-05-10 20:00:00',1,1);
 
 /*Table structure for table `detalle_orden` */
 
@@ -60,25 +98,25 @@ DROP TABLE IF EXISTS `detalle_orden`;
 CREATE TABLE `detalle_orden` (
   `id_detalle_orden` int(11) NOT NULL AUTO_INCREMENT,
   `valor_inventario` double NOT NULL,
-  `valor_venta` double NOT NULL,
+  `valor_compra` double NOT NULL,
   `cantidad` int(11) NOT NULL,
   `id_orden` int(11) NOT NULL,
-  `id_producto` int(11) NOT NULL,
+  `id_insumo` int(11) NOT NULL,
   `estado` enum('0','1') NOT NULL,
   `fecha_creacion` datetime NOT NULL,
   `fecha_modificacion` datetime NOT NULL,
   `id_usuario_creacion` int(11) NOT NULL,
   `id_usuario_modificacion` int(11) NOT NULL,
   PRIMARY KEY (`id_detalle_orden`),
-  KEY `fk_detalle_orden_producto` (`id_producto`),
+  KEY `fk_detalle_orden_insumo` (`id_insumo`),
   KEY `fk_detalle_orden_orden` (`id_orden`),
   CONSTRAINT `fk_detalle_orden_orden` FOREIGN KEY (`id_orden`) REFERENCES `orden` (`id_orden`),
-  CONSTRAINT `fk_detalle_orden_producto` FOREIGN KEY (`id_producto`) REFERENCES `producto` (`id_producto`)
+  CONSTRAINT `fk_detalle_orden_insumo` FOREIGN KEY (`id_insumo`) REFERENCES `insumo` (`id_insumo`)
 ) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4;
 
 /*Data for the table `detalle_orden` */
 
-insert  into `detalle_orden`(`id_detalle_orden`,`valor_inventario`,`valor_venta`,`cantidad`,`id_orden`,`id_producto`,`estado`,`fecha_creacion`,`fecha_modificacion`,`id_usuario_creacion`,`id_usuario_modificacion`) values 
+insert  into `detalle_orden`(`id_detalle_orden`,`valor_inventario`,`valor_compra`,`cantidad`,`id_orden`,`id_insumo`,`estado`,`fecha_creacion`,`fecha_modificacion`,`id_usuario_creacion`,`id_usuario_modificacion`) values 
 (1,1100,2100,10,1,1,'1','2021-05-26 19:07:00','2021-05-26 19:07:00',1,1),
 (2,1200,2200,2,2,1,'1','2021-05-26 19:07:00','2021-05-26 19:07:00',1,1),
 (3,1100,2300,20,1,2,'1','2021-05-27 19:07:00','2021-05-27 19:07:00',1,1),
@@ -116,11 +154,11 @@ CREATE TABLE `empleado` (
 /*Data for the table `empleado` */
 
 insert  into `empleado`(`id_empleado`,`id_cargo`,`correo_institucional`,`fecha_ingreso`,`arl`,`salud`,`pension`,`id_persona`,`sueldo_basico`,`estado`,`fecha_creacion`,`fecha_modificacion`,`id_usuario_creacion`,`id_usuario_modificacion`) values 
-(1,1,'cargon@contex.coma','2021-06-01','Equidad Seguros','Comfamiliar','Colpesiones',1,22,'1','2021-05-08 01:35:00','2021-06-01 21:39:51',1,1),
-(2,2,'yestov@contex.com','2021-05-08','Equidad Seguros','Comfamiliar','Colpesiones',2,1200000,'1','2021-05-08 01:35:00','2021-05-08 01:35:00',1,1),
-(4,4,'aletov@context.com','2021-05-08','Equidad Seguros','Comfamiliar','Colpesiones',4,1200000,'1','2021-05-08 01:35:00','2021-05-08 01:35:00',1,1),
+(1,1,'cargon@arinco.coma','2021-06-01','Equidad Seguros','Comfamiliar','Colpesiones',1,22,'1','2021-05-08 01:35:00','2021-06-01 21:39:51',1,1),
+(2,2,'yestov@arinco.com','2021-05-08','Equidad Seguros','Comfamiliar','Colpesiones',2,1200000,'1','2021-05-08 01:35:00','2021-05-08 01:35:00',1,1),
+(4,4,'aletov@arincot.com','2021-05-08','Equidad Seguros','Comfamiliar','Colpesiones',4,1200000,'1','2021-05-08 01:35:00','2021-05-08 01:35:00',1,1),
 (7,1,'hola@mundo.co','2021-06-01','Seguros Bolivar','Sanitas','Proteccion',5,1789,'1','2021-05-27 13:58:47','2021-06-01 21:40:36',1,1),
-(8,3,'aletov@contex.com','2021-06-01','Equidad Seguros','Comfamiliar','Colpesiones',3,1200000,'1','2021-06-01 23:29:33','2021-06-01 23:29:33',1,1),
+(8,3,'aletov@arinco.com','2021-06-01','Equidad Seguros','Comfamiliar','Colpesiones',3,1200000,'1','2021-06-01 23:29:33','2021-06-01 23:29:33',1,1),
 (9,1,'edurado.andres@gmail.com','2021-06-01','Sura','Nueva Eps','Colpesiones',11,3000000,'1','2021-06-01 23:33:55','2021-06-01 23:33:55',1,1);
 
 /*Table structure for table `formulario` */
@@ -201,59 +239,6 @@ insert  into `formulario_rol`(`id_formulario_rol`,`id_rol`,`id_formulario`,`esta
 (20,1,16,'1','2021-06-01 23:32:08','2021-06-01 23:32:08',1,1),
 (21,1,17,'1','2021-06-11 00:25:07','2021-06-11 00:25:07',1,1);
 
-/*Table structure for table `generar_pago` */
-
-DROP TABLE IF EXISTS `generar_pago`;
-
-CREATE TABLE `generar_pago` (
-  `id_generar_pago` int(11) NOT NULL AUTO_INCREMENT,
-  `id_empleado` int(11) NOT NULL,
-  `fecha_inicio` date NOT NULL,
-  `fecha_fin` date NOT NULL,
-  `fecha_pago` date NOT NULL,
-  `valor_pago` double NOT NULL,
-  `fecha_creacion` datetime NOT NULL,
-  `fecha_modificacion` datetime NOT NULL,
-  `id_usuario_creacion` int(11) NOT NULL,
-  `id_usuario_modificacion` int(11) NOT NULL,
-  PRIMARY KEY (`id_generar_pago`),
-  KEY `id_empleado` (`id_empleado`),
-  CONSTRAINT `generar_pago_ibfk_1` FOREIGN KEY (`id_empleado`) REFERENCES `empleado` (`id_empleado`)
-) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8mb4;
-
-/*Data for the table `generar_pago` */
-
-insert  into `generar_pago`(`id_generar_pago`,`id_empleado`,`fecha_inicio`,`fecha_fin`,`fecha_pago`,`valor_pago`,`fecha_creacion`,`fecha_modificacion`,`id_usuario_creacion`,`id_usuario_modificacion`) values 
-(19,1,'2021-05-01','2021-05-22','2021-06-19',126000,'2021-06-19 17:48:36','2021-06-19 17:48:36',1,1),
-(20,1,'2021-05-01','2021-05-31','2021-06-19',171000,'2021-06-19 17:53:45','2021-06-19 17:53:45',1,1),
-(21,1,'2021-05-01','2021-05-31','2021-06-18',171000,'2021-06-19 17:55:00','2021-06-19 17:55:00',1,1),
-(22,1,'2021-05-01','2021-05-31','2021-06-19',171000,'2021-06-19 18:03:27','2021-06-19 18:03:27',1,1);
-
-/*Table structure for table `insumo` */
-
-DROP TABLE IF EXISTS `insumo`;
-
-CREATE TABLE `insumo` (
-  `id_insumo` int(11) NOT NULL AUTO_INCREMENT,
-  `descripcion` varchar(50) CHARACTER SET utf8mb4 NOT NULL,
-  `id_categoria` int(11) NOT NULL,
-  `cantidad` int(11) NOT NULL,
-  `estado` enum('0','1') CHARACTER SET utf8mb4 NOT NULL,
-  `fecha_creacion` datetime NOT NULL,
-  `fecha_modificacion` datetime NOT NULL,
-  `id_usuario_creacion` int(11) NOT NULL,
-  `id_usuario_modificacion` int(11) NOT NULL,
-  PRIMARY KEY (`id_insumo`),
-  KEY `fk_insumo_categoria` (`id_categoria`),
-  CONSTRAINT `fk_insumo_categoria` FOREIGN KEY (`id_categoria`) REFERENCES `categoria` (`id_categoria`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
-
-/*Data for the table `insumo` */
-
-insert  into `insumo`(`id_insumo`,`descripcion`,`id_categoria`,`cantidad`,`estado`,`fecha_creacion`,`fecha_modificacion`,`id_usuario_creacion`,`id_usuario_modificacion`) values 
-(1,'Boton azul',9,14,'1','2021-06-10 21:27:19','2021-06-18 13:02:41',1,1),
-(2,'Agujas 2',2,15,'0','2021-06-10 23:19:40','2021-06-18 13:00:16',1,1);
-
 /*Table structure for table `orden` */
 
 DROP TABLE IF EXISTS `orden`;
@@ -263,7 +248,7 @@ CREATE TABLE `orden` (
   `fecha_orden` datetime NOT NULL,
   `fecha_entrega` datetime NOT NULL,
   `descripcion` varchar(100) NOT NULL,
-  `id_cliente` int(11) NOT NULL,
+  `id_proveedor` int(11) NOT NULL,
   `id_empleado` int(11) NOT NULL,
   `estado` enum('0','1') NOT NULL,
   `fecha_creacion` datetime NOT NULL,
@@ -271,50 +256,20 @@ CREATE TABLE `orden` (
   `id_usuario_creacion` int(11) NOT NULL,
   `id_usuario_modificacion` int(11) NOT NULL,
   PRIMARY KEY (`id_orden`),
-  KEY `id_cliente` (`id_cliente`),
+  KEY `id_proveedor` (`id_proveedor`),
   KEY `id_empleado` (`id_empleado`),
-  CONSTRAINT `orden_ibfk_1` FOREIGN KEY (`id_cliente`) REFERENCES `cliente` (`id_cliente`),
+  CONSTRAINT `orden_ibfk_1` FOREIGN KEY (`id_proveedor`) REFERENCES `proveedor` (`id_proveedor`),
   CONSTRAINT `orden_ibfk_2` FOREIGN KEY (`id_empleado`) REFERENCES `empleado` (`id_empleado`)
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4;
 
 /*Data for the table `orden` */
 
-insert  into `orden`(`id_orden`,`fecha_orden`,`fecha_entrega`,`descripcion`,`id_cliente`,`id_empleado`,`estado`,`fecha_creacion`,`fecha_modificacion`,`id_usuario_creacion`,`id_usuario_modificacion`) values 
+insert  into `orden`(`id_orden`,`fecha_orden`,`fecha_entrega`,`descripcion`,`id_proveedor`,`id_empleado`,`estado`,`fecha_creacion`,`fecha_modificacion`,`id_usuario_creacion`,`id_usuario_modificacion`) values 
 (1,'2021-05-21 07:00:00','2021-06-21 07:00:00','Camisas x 10',5,1,'1','2021-05-21 07:00:00','2021-05-21 07:00:00',1,1),
 (2,'2021-05-22 08:00:00','2021-05-27 08:00:00','Pantalones x 2',4,2,'1','2021-05-22 08:00:00','2021-05-22 08:00:00',1,1),
 (3,'2021-05-22 09:00:00','2021-06-22 09:00:00','Medias x 20',3,9,'1','2021-05-22 09:00:00','2021-05-22 09:00:00',1,1),
 (4,'2021-05-23 10:00:00','2021-06-13 10:00:00','Vestidos x 3',2,4,'0','2021-05-23 10:00:00','2021-05-23 10:00:00',1,1),
 (5,'2021-05-23 11:00:00','2021-06-16 11:00:00','Sacos x 3',1,1,'1','2021-05-23 11:00:00','2021-05-23 11:00:00',1,1);
-
-/*Table structure for table `pago_dia` */
-
-DROP TABLE IF EXISTS `pago_dia`;
-
-CREATE TABLE `pago_dia` (
-  `id_pago_dia` int(11) NOT NULL AUTO_INCREMENT,
-  `id_empleado` int(11) NOT NULL,
-  `pago_dia` double NOT NULL,
-  `estado` enum('0','1') NOT NULL,
-  `fecha_pago_dia` date NOT NULL,
-  `fecha_creacion` datetime NOT NULL,
-  `fecha_modificacion` datetime NOT NULL,
-  `id_usuario_creacion` int(11) NOT NULL,
-  `id_usuario_modificacion` int(11) NOT NULL,
-  PRIMARY KEY (`id_pago_dia`),
-  KEY `id_empleado` (`id_empleado`),
-  CONSTRAINT `pago_dia_ibfk_1` FOREIGN KEY (`id_empleado`) REFERENCES `empleado` (`id_empleado`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4;
-
-/*Data for the table `pago_dia` */
-
-insert  into `pago_dia`(`id_pago_dia`,`id_empleado`,`pago_dia`,`estado`,`fecha_pago_dia`,`fecha_creacion`,`fecha_modificacion`,`id_usuario_creacion`,`id_usuario_modificacion`) values 
-(1,1,45000,'1','2021-05-31','2021-06-01 23:24:33','2021-06-01 23:24:33',1,1),
-(2,2,35000,'0','2021-06-01','2021-06-01 23:25:04','2021-06-01 23:25:04',1,1),
-(3,1,42000,'1','2021-05-12','2021-06-01 23:26:09','2021-06-01 23:26:09',1,1),
-(4,1,42000,'1','2021-05-13','2021-06-01 23:26:32','2021-06-01 23:26:32',1,1),
-(5,1,42000,'1','2021-05-22','2021-06-01 23:26:55','2021-06-01 23:26:55',1,1),
-(6,8,50000,'0','2021-04-06','2021-06-01 23:30:00','2021-06-01 23:30:00',1,1),
-(7,2,36000,'1','2021-06-12','2021-06-12 18:32:53','2021-06-12 18:32:53',1,1);
 
 /*Table structure for table `persona` */
 
@@ -344,21 +299,21 @@ insert  into `persona`(`id_persona`,`nombre`,`apellido`,`tipo_documento`,`docume
 (2,'Carmenza','Gonzalez','CC',1075264422,42,'F','1','2021-04-22 00:00:00','2021-04-22 00:00:00',1,1),
 (3,'Alejandra','Tovar','CC',1075264423,22,'F','1','2021-04-22 00:00:00','2021-04-22 00:00:00',1,1),
 (4,'Costurera','Sin Datos','CC',1075264424,11,'M','0','2021-04-22 00:00:00','2021-06-07 16:16:42',1,1),
-(5,'Cliente#1','ACliente#1','TI',1075264425,17,'O','0','2021-05-10 20:00:00','2021-06-07 15:51:07',1,1),
-(6,'Cliente#2','ACliente#2','CC',1075264426,102,'F','1','2021-05-10 20:00:00','2021-05-10 20:00:00',1,1),
-(7,'Cliente#3','ACliente#3','TI',1075264427,18,'O','1','2021-05-10 20:00:00','2021-06-07 15:55:47',1,1),
-(8,'Cliente#4','ACliente#4','CC',1075264428,104,'F','1','2021-05-10 20:00:00','2021-05-10 20:00:00',1,1),
-(9,'Cliente#5','ACliente#5','CC',1075264429,105,'M','1','2021-05-10 20:00:00','2021-05-10 20:00:00',1,1),
+(5,'Proveedor#1','AProveedor#1','TI',1075264425,17,'O','0','2021-05-10 20:00:00','2021-06-07 15:51:07',1,1),
+(6,'Proveedor#2','AProveedor#2','CC',1075264426,102,'F','1','2021-05-10 20:00:00','2021-05-10 20:00:00',1,1),
+(7,'Proveedor#3','AProveedor#3','TI',1075264427,18,'O','1','2021-05-10 20:00:00','2021-06-07 15:55:47',1,1),
+(8,'Proveedor#4','AProveedor#4','CC',1075264428,104,'F','1','2021-05-10 20:00:00','2021-05-10 20:00:00',1,1),
+(9,'Proveedor#5','AProveedor#5','CC',1075264429,105,'M','1','2021-05-10 20:00:00','2021-05-10 20:00:00',1,1),
 (10,'Wilmer','Vargas Bautista','CC',1075250180,30,'M','1','2021-06-01 23:30:41','2021-06-01 23:30:41',1,1),
 (11,'Oscar Leonardo','Perdomo','CC',1081158586,26,'M','1','2021-06-01 23:14:56','2021-06-01 23:14:56',1,1),
 (12,'Eduardo Andres','Peña Rojas','CC',1075264436,28,'M','1','2021-06-07 16:35:22','2021-06-07 16:35:22',1,1);
 
-/*Table structure for table `producto` */
+/*Table structure for table `insumo` */
 
-DROP TABLE IF EXISTS `producto`;
+DROP TABLE IF EXISTS `insumo`;
 
-CREATE TABLE `producto` (
-  `id_producto` int(11) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `insumo` (
+  `id_insumo` int(11) NOT NULL AUTO_INCREMENT,
   `descripcion` varchar(100) NOT NULL,
   `talla` varchar(50) NOT NULL,
   `estado` enum('0','1') NOT NULL,
@@ -367,39 +322,20 @@ CREATE TABLE `producto` (
   `fecha_modificacion` datetime NOT NULL,
   `id_usuario_creacion` int(11) NOT NULL,
   `id_usuario_modificacion` int(11) NOT NULL,
-  PRIMARY KEY (`id_producto`),
-  KEY `fk_producto_categoria` (`id_categoria`),
-  CONSTRAINT `fk_producto_categoria` FOREIGN KEY (`id_categoria`) REFERENCES `categoria` (`id_categoria`)
+  PRIMARY KEY (`id_insumo`),
+  KEY `fk_insumo_categoria` (`id_categoria`),
+  CONSTRAINT `fk_insumo_categoria` FOREIGN KEY (`id_categoria`) REFERENCES `categoria` (`id_categoria`)
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4;
 
-/*Data for the table `producto` */
+/*Data for the table `insumo` */
 
-insert  into `producto`(`id_producto`,`descripcion`,`talla`,`estado`,`id_categoria`,`fecha_creacion`,`fecha_modificacion`,`id_usuario_creacion`,`id_usuario_modificacion`) values 
+insert  into `insumo`(`id_insumo`,`descripcion`,`talla`,`estado`,`id_categoria`,`fecha_creacion`,`fecha_modificacion`,`id_usuario_creacion`,`id_usuario_modificacion`) values 
 (1,'Camisa cuadros','L','1',1,'2021-05-26 19:07:00','2021-06-07 13:37:16',1,1),
 (2,'pantalon','32','0',2,'2021-05-26 19:07:00','2021-06-07 13:51:47',1,1),
 (3,'medias','43','1',3,'2021-05-26 19:07:00','2021-05-26 19:07:00',1,1),
 (4,'vestido','S','1',4,'2021-05-26 19:07:00','2021-05-26 19:07:00',1,1),
 (5,'saco','L','0',5,'2021-05-26 19:07:00','2021-06-07 13:52:00',1,1),
 (6,'Camisa rayas','0','1',1,'2021-06-07 12:57:45','2021-06-07 12:57:45',1,1);
-
-/*Table structure for table `proveedor` */
-
-DROP TABLE IF EXISTS `proveedor`;
-
-CREATE TABLE `proveedor` (
-  `id_proveedor` int(11) NOT NULL AUTO_INCREMENT,
-  `id_persona` int(11) NOT NULL,
-  `estado` enum('0','1') NOT NULL,
-  `fecha_creacion` datetime NOT NULL,
-  `fecha_modificacion` datetime NOT NULL,
-  `id_usuario_creacion` int(11) NOT NULL,
-  `id_usuario_modificacion` int(11) NOT NULL,
-  PRIMARY KEY (`id_proveedor`),
-  KEY `id_persona` (`id_persona`),
-  CONSTRAINT `proveedor_ibfk_1` FOREIGN KEY (`id_persona`) REFERENCES `persona` (`id_persona`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
-/*Data for the table `proveedor` */
 
 /*Table structure for table `rol` */
 
@@ -422,53 +358,6 @@ insert  into `rol`(`id_rol`,`descripcion`,`estado`,`fecha_creacion`,`fecha_modif
 (1,'Administrador','1','2021-05-10 20:00:00','2021-05-10 20:00:00',1,1),
 (2,'Contador','1','2021-05-10 20:00:00','2021-05-10 20:00:00',1,1),
 (3,'Vendedor','1','2021-05-10 20:00:00','2021-05-10 20:00:00',1,1);
-
-/*Table structure for table `tarea` */
-
-DROP TABLE IF EXISTS `tarea`;
-
-CREATE TABLE `tarea` (
-  `id_tarea` int(11) NOT NULL AUTO_INCREMENT,
-  `descripcion` varchar(100) NOT NULL,
-  `valor_unitario` double NOT NULL,
-  `cantidad` int(11) NOT NULL,
-  `fecha` datetime NOT NULL,
-  `estado_pago` enum('Pagado','Por pagar') NOT NULL,
-  `id_empleado` int(11) NOT NULL,
-  `estado` enum('0','1') NOT NULL,
-  `fecha_creacion` datetime NOT NULL,
-  `fecha_modificacion` datetime NOT NULL,
-  `id_usuario_creacion` int(11) NOT NULL,
-  `id_usuario_modificacion` int(11) NOT NULL,
-  PRIMARY KEY (`id_tarea`),
-  KEY `id_empleado` (`id_empleado`),
-  CONSTRAINT `fk_tarea_id_empleado` FOREIGN KEY (`id_empleado`) REFERENCES `empleado` (`id_empleado`)
-) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb4;
-
-/*Data for the table `tarea` */
-
-insert  into `tarea`(`id_tarea`,`descripcion`,`valor_unitario`,`cantidad`,`fecha`,`estado_pago`,`id_empleado`,`estado`,`fecha_creacion`,`fecha_modificacion`,`id_usuario_creacion`,`id_usuario_modificacion`) values 
-(1,'Hola',10000,10,'2021-05-17 00:00:00','Por pagar',2,'1','2021-05-12 22:36:37','2021-05-12 22:36:37',1,1),
-(14,'Hola',10000,10,'0000-00-00 00:00:00','Por pagar',1,'1','2021-05-29 21:59:45','2021-05-29 21:59:45',1,1),
-(15,'Chao',2334234,3242342,'2021-05-29 00:00:00','Pagado',3,'0','2021-05-29 22:04:04','2021-05-29 22:04:04',1,1),
-(16,'dsfsdgds',3454235,45453245,'2021-05-30 00:00:00','Por pagar',1,'1','2021-05-29 22:18:35','2021-05-29 22:18:35',1,1);
-
-/*Table structure for table `tipo_pago` */
-
-DROP TABLE IF EXISTS `tipo_pago`;
-
-CREATE TABLE `tipo_pago` (
-  `id_tipo_pago` int(11) NOT NULL AUTO_INCREMENT,
-  `descripcion` varchar(100) NOT NULL,
-  `estado` enum('0','1') NOT NULL,
-  `fecha_creacion` datetime NOT NULL,
-  `fecha_modificacion` datetime NOT NULL,
-  `id_usuario_creacion` int(11) NOT NULL,
-  `id_usuario_modificacion` int(11) NOT NULL,
-  PRIMARY KEY (`id_tipo_pago`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
-/*Data for the table `tipo_pago` */
 
 /*Table structure for table `usuario` */
 
@@ -586,13 +475,13 @@ BEGIN
 END */$$
 DELIMITER ;
 
-/* Procedure structure for procedure `Agregar_cliente` */
+/* Procedure structure for procedure `Agregar_proveedor` */
 
-/*!50003 DROP PROCEDURE IF EXISTS  `Agregar_cliente` */;
+/*!50003 DROP PROCEDURE IF EXISTS  `Agregar_proveedor` */;
 
 DELIMITER $$
 
-/*!50003 CREATE DEFINER=`root`@`localhost` PROCEDURE `Agregar_cliente`(IN idPersona INT(11)
+/*!50003 CREATE DEFINER=`root`@`localhost` PROCEDURE `Agregar_proveedor`(IN idPersona INT(11)
 																		,IN estado ENUM('0','1')
 																		,IN idUsuarioCreacion INT(11)
 																		,IN idUsuarioModificacion INT(11)
@@ -625,17 +514,17 @@ DELIMITER $$
 																			,IN valorVenta DOUBLE
 																			,IN cantidad INT(11)
 																			,IN idOrden INT(11)
-																			,IN idProducto INT(11)
+																			,IN idInsumo INT(11)
 																			,IN estado ENUM('0','1')
 																			,IN idUsuarioCreacion INT(11)
 																			,IN idUsuarioModificacion INT(11)
 																			)
 BEGIN
 	INSERT INTO detalle_orden(valor_inventario
-							 ,valor_venta
+							 ,valor_compra
 							 ,cantidad
 							 ,id_orden
-							 ,id_producto
+							 ,id_insumo
 							 ,estado
 							 ,fecha_creacion
 							 ,fecha_modificacion
@@ -646,7 +535,7 @@ BEGIN
 			,valorVenta
 			,cantidad
 			,idOrden
-			,idProducto
+			,idInsumo
 			,estado
 			,NOW()
 			,NOW()
@@ -773,83 +662,6 @@ BEGIN
 END */$$
 DELIMITER ;
 
-/* Procedure structure for procedure `Agregar_generar_pago` */
-
-/*!50003 DROP PROCEDURE IF EXISTS  `Agregar_generar_pago` */;
-
-DELIMITER $$
-
-/*!50003 CREATE DEFINER=`root`@`localhost` PROCEDURE `Agregar_generar_pago`(
-	IN `idEmpleado` INT(11),
-	IN `fechaInicio` DATE,
-	IN `fechaFin` DATE,
-	IN `fechaPago` DATE,
-	IN `valorPago` DOUBLE,
-	IN `idUsuarioCreacion` INT(11),
-	IN `idUsuarioModificacion` INT(11)
-)
-BEGIN
-	INSERT INTO generar_pago(
-							id_empleado
-							,fecha_inicio
-							,fecha_fin
-							,fecha_pago
-							,valor_pago
-							,fecha_creacion
-							,fecha_modificacion
-							,id_usuario_creacion
-							,id_usuario_modificacion
-							) 
-	VALUES (
-			idEmpleado
-			,fechaInicio
-			,fechaFin
-			,fechaPago
-			,valorPago
-			,NOW()
-			,NOW()
-			,idUsuarioCreacion
-			,idUsuarioModificacion
-			);
-END */$$
-DELIMITER ;
-
-/* Procedure structure for procedure `Agregar_insumo` */
-
-/*!50003 DROP PROCEDURE IF EXISTS  `Agregar_insumo` */;
-
-DELIMITER $$
-
-/*!50003 CREATE DEFINER=`root`@`localhost` PROCEDURE `Agregar_insumo`(
-	IN `descripcion` VARCHAR(50),
-	IN `cantidad` INT(11),
-	IN `idCategoria` INT(11),
-	IN `estado` ENUM('1','0'),
-	IN `idUsuarioCreacion` INT(11),
-	IN `idUsuarioModificacion` INT(11)
-)
-BEGIN
-	INSERT INTO insumo(descripcion
-						,cantidad
-						,id_categoria
-						,estado
-						,fecha_creacion
-						,fecha_modificacion
-						,id_usuario_creacion
-						,id_usuario_modificacion
-						) 
-	VALUES (descripcion
-			,cantidad
-			,idCategoria
-			,estado
-			,NOW()
-			,NOW()
-			,idUsuarioCreacion
-			,idUsuarioModificacion
-			);
-END */$$
-DELIMITER ;
-
 /* Procedure structure for procedure `Agregar_orden` */
 
 /*!50003 DROP PROCEDURE IF EXISTS  `Agregar_orden` */;
@@ -859,7 +671,7 @@ DELIMITER $$
 /*!50003 CREATE DEFINER=`root`@`localhost` PROCEDURE `Agregar_orden`(IN fechaOrden DATETIME
 																	,IN fechaEntrega DATETIME
 																	,IN descripcion VARCHAR(50)
-																	,IN idCliente INT(11)
+																	,IN idProveedor INT(11)
 																	,IN idEmpleado INT(11)
 																	,IN estado ENUM('0','1')
 																	,IN idUsuarioCreacion INT(11)
@@ -869,7 +681,7 @@ BEGIN
 	INSERT INTO orden(fecha_orden
 					 ,fecha_entrega
 					 ,descripcion
-					 ,id_cliente
+					 ,id_proveedor
 					 ,id_empleado
 					 ,estado
 					 ,fecha_creacion
@@ -880,7 +692,7 @@ BEGIN
 	VALUES (fechaOrden
 		   ,fechaEntrega
 		   ,descripcion
-		   ,idCliente
+		   ,idProveedor
 		   ,idEmpleado
 		   ,estado
 		   ,NOW()
@@ -888,43 +700,6 @@ BEGIN
 		   ,idUsuarioCreacion
 		   ,idUsuarioModificacion
            );
-END */$$
-DELIMITER ;
-
-/* Procedure structure for procedure `Agregar_pago_dia` */
-
-/*!50003 DROP PROCEDURE IF EXISTS  `Agregar_pago_dia` */;
-
-DELIMITER $$
-
-/*!50003 CREATE DEFINER=`root`@`localhost` PROCEDURE `Agregar_pago_dia`(
-	IN `idEmpleado` INT(11),
-	IN `pagoDia` DOUBLE,
-	IN `fechaPago` DATE,
-	IN `estado` ENUM('0','1'),
-	IN `idUsuarioCreacion` INT(11),
-	IN `idUsuarioModificacion` INT(11)
-)
-BEGIN
-	INSERT INTO pago_dia(
-						id_empleado
-						,pago_dia
-						,fecha_pago_dia
-						,estado
-						,fecha_creacion
-						,fecha_modificacion
-						,id_usuario_creacion
-						,id_usuario_modificacion
-						) 
-	VALUES (idEmpleado
-			,pagoDia
-			,fechaPago
-			,estado
-			,NOW()
-			,NOW()
-			,idUsuarioCreacion
-			,idUsuarioModificacion
-			);
 END */$$
 DELIMITER ;
 
@@ -973,13 +748,13 @@ VALUES (nombre
 END */$$
 DELIMITER ;
 
-/* Procedure structure for procedure `Agregar_producto` */
+/* Procedure structure for procedure `Agregar_insumo` */
 
-/*!50003 DROP PROCEDURE IF EXISTS  `Agregar_producto` */;
+/*!50003 DROP PROCEDURE IF EXISTS  `Agregar_insumo` */;
 
 DELIMITER $$
 
-/*!50003 CREATE DEFINER=`root`@`localhost` PROCEDURE `Agregar_producto`(IN `descripcion` VARCHAR(50)
+/*!50003 CREATE DEFINER=`root`@`localhost` PROCEDURE `Agregar_insumo`(IN `descripcion` VARCHAR(50)
 																		,IN `talla` INT(11)
 																		,IN `estado` ENUM('0','1')
 																		,IN `idCategoria` INT(11)
@@ -987,7 +762,7 @@ DELIMITER $$
 																		,IN `idUsuarioModificacion` INT(11)
 																		)
 BEGIN
-	INSERT INTO producto(descripcion
+	INSERT INTO insumo(descripcion
 						,talla
 						,estado
 						,id_categoria
@@ -1027,70 +802,6 @@ BEGIN
 					,id_usuario_creacion
 					,id_usuario_modificacion
 					) 
-	VALUES (descripcion
-			,estado
-			,NOW()
-			,NOW()
-			,idUsuarioCreacion
-			,idUsuarioModificacion
-			);
-END */$$
-DELIMITER ;
-
-/* Procedure structure for procedure `Agregar_tarea` */
-
-/*!50003 DROP PROCEDURE IF EXISTS  `Agregar_tarea` */;
-
-DELIMITER $$
-
-/*!50003 CREATE DEFINER=`root`@`localhost` PROCEDURE `Agregar_tarea`(IN `descripcion` VARCHAR(100), IN `valorUnitario` DOUBLE, IN `cantidad` INT(11), IN `fecha` DATETIME, IN `estadoPago` ENUM('Pagado','Por pagar'), IN `idEmpleado` INT(11), IN `estado` ENUM('0','1'), IN `idUsuarioCreacion` INT(11), IN `idUsuarioModificacion` INT(11))
-BEGIN
-	INSERT INTO tarea (descripcion
-					,valor_unitario
-					,cantidad
-					,fecha
-					,estado_pago
-					,id_empleado
-					,estado
-					,fecha_creacion
-					,fecha_modificacion
-					,id_usuario_creacion
-					,id_usuario_modificacion
-					) 
-	VALUES(descripcion
-			,valorUnitario
-			,cantidad
-			,fecha
-			,estadoPago
-			,idEmpleado
-			,estado
-			,NOW()
-			,NOW()
-			,idUsuarioCreacion
-			,idUsuarioModificacion
-			);
-END */$$
-DELIMITER ;
-
-/* Procedure structure for procedure `Agregar_tipo_pago` */
-
-/*!50003 DROP PROCEDURE IF EXISTS  `Agregar_tipo_pago` */;
-
-DELIMITER $$
-
-/*!50003 CREATE DEFINER=`root`@`localhost` PROCEDURE `Agregar_tipo_pago`(IN descripcion VARCHAR(100)
-																		,IN estado ENUM('0','1')
-																		,IN idUsuarioCreacion INT(11)
-																		,IN idUsuarioModificacion INT(11)
-																		)
-BEGIN
-	INSERT INTO tipo_pago(descripcion
-						 ,estado
-						 ,fecha_creacion
-						 ,fecha_modificacion
-						 ,id_usuario_creacion
-						 ,id_usuario_modificacion
-						 ) 
 	VALUES (descripcion
 			,estado
 			,NOW()
@@ -1216,24 +927,24 @@ BEGIN
 END */$$
 DELIMITER ;
 
-/* Procedure structure for procedure `Modificar_cliente` */
+/* Procedure structure for procedure `Modificar_proveedor` */
 
-/*!50003 DROP PROCEDURE IF EXISTS  `Modificar_cliente` */;
+/*!50003 DROP PROCEDURE IF EXISTS  `Modificar_proveedor` */;
 
 DELIMITER $$
 
-/*!50003 CREATE DEFINER=`root`@`localhost` PROCEDURE `Modificar_cliente`(IN idPersona INT(11)
+/*!50003 CREATE DEFINER=`root`@`localhost` PROCEDURE `Modificar_proveedor`(IN idPersona INT(11)
 																		,IN estado ENUM('0','1')
 																		,IN idUsuarioModificacion INT(11)
-																		,IN idCliente INT(11)
+																		,IN idProveedor INT(11)
 																		)
 BEGIN
-	UPDATE cliente 
+	UPDATE proveedor 
 	SET id_persona = idPersona
 		,estado = estado
 		,fecha_modificacion = NOW()
 		,id_usuario_modificacion = idUsuarioModificacion 
-	WHERE id_cliente = idCliente;
+	WHERE id_proveedor = idProveedor;
 END */$$
 DELIMITER ;
 
@@ -1248,7 +959,7 @@ DELIMITER $$
 		IN valorVenta DOUBLE,
 		IN cantidad INT(11),
 		IN idOrden INT(11),
-		IN idProducto INT(11),
+		IN idInsumo INT(11),
 		IN estado ENUM('0','1'),
 		IN idUsuarioModificacion INT(11),
 		IN idDetalleOrden INT(11)
@@ -1257,10 +968,10 @@ BEGIN
 	UPDATE detalle_orden 
 	    SET 
 		 	valor_inventario = valorInventario
-			,valor_venta = valorVenta
+			,valor_compra = valorVenta
 			,cantidad = cantidad
 			,id_orden = idOrden
-			,id_producto = idProducto
+			,id_insumo = idInsumo
 			,estado = estado
 			,fecha_modificacion = NOW()
 			,id_usuario_modificacion = idUsuarioModificacion 
@@ -1351,61 +1062,6 @@ BEGIN
 END */$$
 DELIMITER ;
 
-/* Procedure structure for procedure `Modificar_generar_pago` */
-
-/*!50003 DROP PROCEDURE IF EXISTS  `Modificar_generar_pago` */;
-
-DELIMITER $$
-
-/*!50003 CREATE DEFINER=`root`@`localhost` PROCEDURE `Modificar_generar_pago`(
-	IN `idEmpleado` INT(11),
-	IN `fechaInicio` DATE,
-	IN `fechaFin` DATE,
-	IN `fechaPago` DATE,
-	IN `valorPago` DOUBLE,
-	IN `idUsuarioModificacion` INT(11),
-	IN `idGenerarPago` INT(11)
-)
-BEGIN
-	UPDATE generar_pago 
-	SET 
-		id_empleado = idEmpleado
-		,fecha_inicio = fechaInicio
-		,fecha_fin = fechaFin
-		,fecha_pago = fechaPago
-		,valor_pago = valorPago
-		,fecha_modificacion = NOW()
-		,id_usuario_modificacion = idUsuarioModificacion 
-	WHERE id_generar_pago = idGenerarPago;
-END */$$
-DELIMITER ;
-
-/* Procedure structure for procedure `Modificar_insumo` */
-
-/*!50003 DROP PROCEDURE IF EXISTS  `Modificar_insumo` */;
-
-DELIMITER $$
-
-/*!50003 CREATE DEFINER=`root`@`localhost` PROCEDURE `Modificar_insumo`(
-	IN `descripcion` VARCHAR(50),
-	IN `cantidadO` INT(11),
-	IN `idCategoria` INT(11),
-	IN `estado` ENUM('1','0'),
-	IN `idUsuarioModificacion` INT(11),
-	IN `idInsumo` CHAR(1)
-)
-BEGIN
-	UPDATE insumo 
-    SET descripcion = descripcion
-		,cantidad = cantidad + cantidadO
-		,id_categoria = idCategoria
-		,estado = estado
-		,fecha_modificacion = NOW()
-		,id_usuario_modificacion = idUsuarioModificacion 
-	WHERE id_insumo = idInsumo;
-END */$$
-DELIMITER ;
-
 /* Procedure structure for procedure `Modificar_orden` */
 
 /*!50003 DROP PROCEDURE IF EXISTS  `Modificar_orden` */;
@@ -1415,7 +1071,7 @@ DELIMITER $$
 /*!50003 CREATE DEFINER=`root`@`localhost` PROCEDURE `Modificar_orden`(IN fechaOrden DATETIME
                                                                       ,IN fechaEntrega DATETIME
                                                                       ,IN descripcion VARCHAR(50)
-                                                                      ,IN idCliente INT(11)
+                                                                      ,IN idProveedor INT(11)
                                                                       ,IN idEmpleado INT(11)
                                                                       ,IN estado ENUM('0','1')
                                                                       ,IN idUsuarioModificacion INT(11)
@@ -1426,40 +1082,13 @@ BEGIN
 	SET fecha_orden = fechaOrden
        ,fecha_entrega = fechaEntrega 
        ,descripcion = descripcion
-       ,id_cliente = idCliente
+       ,id_proveedor = idProveedor
        ,id_empleado = idEmpleado
        ,estado = estado
 	   ,fecha_modificacion = NOW()
        ,id_usuario_modificacion = idUsuarioModificacion 
 	WHERE id_orden = idOrden;
 END */$$
-DELIMITER ;
-
-/* Procedure structure for procedure `Modificar_pago_dia` */
-
-/*!50003 DROP PROCEDURE IF EXISTS  `Modificar_pago_dia` */;
-
-DELIMITER $$
-
-/*!50003 CREATE DEFINER=`root`@`localhost` PROCEDURE `Modificar_pago_dia`(
-	IN `idEmpleado` INT(11),
-	IN `pagoDia` DOUBLE,
-	IN `fechaPago` DATE,
-	IN `estado` ENUM('0','1'),
-	IN `idUsuarioModificacion` INT(11),
-	IN `idPagoDia` INT(11)
-)
-BEGIN
-	UPDATE pago_dia 
-	SET id_empleado = idEmpleado
-		,pago_dia = pagoDia
-		,fecha_pago_dia = fechaPago
-		,estado = estado
-		,fecha_modificacion = NOW()
-		,id_usuario_modificacion = idUsuarioModificacion 
-	WHERE 
-		id_pago_dia = idPagoDia;
-	END */$$
 DELIMITER ;
 
 /* Procedure structure for procedure `Modificar_persona` */
@@ -1495,28 +1124,28 @@ BEGIN
 END */$$
 DELIMITER ;
 
-/* Procedure structure for procedure `Modificar_producto` */
+/* Procedure structure for procedure `Modificar_insumo` */
 
-/*!50003 DROP PROCEDURE IF EXISTS  `Modificar_producto` */;
+/*!50003 DROP PROCEDURE IF EXISTS  `Modificar_insumo` */;
 
 DELIMITER $$
 
-/*!50003 CREATE DEFINER=`root`@`localhost` PROCEDURE `Modificar_producto`(IN `descripcion` VARCHAR(50)
+/*!50003 CREATE DEFINER=`root`@`localhost` PROCEDURE `Modificar_insumo`(IN `descripcion` VARCHAR(50)
 																		 ,IN `talla` VARCHAR(50)
 																		 ,IN `estado` ENUM('0','1')
 																		 ,IN `idCategoria` INT
 																		 ,IN `idUsuarioModificacion` INT(11)
-																		 ,IN `idProducto` INT(11)
+																		 ,IN `idInsumo` INT(11)
 																		 )
 BEGIN
-	UPDATE producto 
+	UPDATE insumo 
     SET descripcion = descripcion
 		,talla = talla
 		,estado = estado
 		,id_categoria = idCategoria
 		,fecha_modificacion = NOW()
 		,id_usuario_modificacion = idUsuarioModificacion 
-	WHERE id_producto = idProducto;
+	WHERE id_insumo = idInsumo;
 END */$$
 DELIMITER ;
 
@@ -1538,50 +1167,6 @@ BEGIN
 		,fecha_modificacion = NOW()
 		,id_usuario_modificacion = idUsuarioModificacion 
 	WHERE id_rol = idRol;
-END */$$
-DELIMITER ;
-
-/* Procedure structure for procedure `Modificar_tarea` */
-
-/*!50003 DROP PROCEDURE IF EXISTS  `Modificar_tarea` */;
-
-DELIMITER $$
-
-/*!50003 CREATE DEFINER=`root`@`localhost` PROCEDURE `Modificar_tarea`(IN `descripcion` VARCHAR(100), IN `valorUnitario` DOUBLE, IN `cantidad` INT(11), IN `fecha` DATETIME, IN `estadoPago` ENUM('Pagado','Por pagar'), IN `idEmpleado` INT(11), IN `estado` ENUM('0','1'), IN `idUsuarioModificacion` INT(11), IN `idTarea` INT(11))
-BEGIN
-	UPDATE tarea
-	set descripcion = descripcion
-		,valor_unitario = valorUnitario
-		,cantidad = cantidad
-		,fecha = fecha
-		,estado_pago = estadoPago
-		,id_empleado = idEmpleado
-		,estado = estado
-		,fecha_modificacion = NOW()
-		,id_usuario_Modificacion = idUsuarioModificacion
-	WHERE
-		id_tarea = idTarea;
-END */$$
-DELIMITER ;
-
-/* Procedure structure for procedure `Modificar_tipo_pago` */
-
-/*!50003 DROP PROCEDURE IF EXISTS  `Modificar_tipo_pago` */;
-
-DELIMITER $$
-
-/*!50003 CREATE DEFINER=`root`@`localhost` PROCEDURE `Modificar_tipo_pago`(IN descripcion VARCHAR(100)
-																			,IN estado ENUM('0','1')
-																			,IN idUsuarioModificacion INT(11)
-																			,IN idTipoPago INT(11)
-																			)
-BEGIN
-	UPDATE persona 
-	SET descripcion = descripcion
-		,estado = estado
-		,fecha_modificacion = NOW()
-		,id_usuario_modificacion = idUsuarioModificacion 
-	WHERE id_tipo_pago = idTipoPago;
 END */$$
 DELIMITER ;
 

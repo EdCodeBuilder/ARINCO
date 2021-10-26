@@ -1,0 +1,1 @@
+Este es un Archivo de prueba para configurar git en PC del SENA.

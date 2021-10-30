@@ -1,0 +1,8 @@
+Para vista de producto solicitado:
+- Campos de un solo valor: quien lo solicita, provedor, fecha y hora.
+- Campos con mas valores: cantidad, producto.
+- Tabla para reportes diferente, encontrar la forma de concatenar los valores registrados en la base de datos como un solo registro para mostrar como string en la tabla.
+- Boton de agregar otro producto genera dos campos adicionales por debajo para listar mas de un producto.
+
+Falta mockup de portal web.
+Falta registro de ingreso.
